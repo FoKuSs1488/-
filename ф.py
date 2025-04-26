@@ -26,7 +26,7 @@ background_image = pygame.image.load("fon.png").convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 player_image = pygame.image.load("kyb.png").convert_alpha()
 player_image = pygame.transform.scale(player_image, (40, 40))
-end_background = pygame.image.load("").convert()
+end_background = pygame.image.load("fon2.png").convert()
 end_background = pygame.transform.scale(end_background, (WIDTH, HEIGHT))
 
 def main_menu():
@@ -48,8 +48,18 @@ def main_menu():
 def show_end_screen(message):
     screen.blit(end_background, (0, 0))
     text_surface = font.render(message, True, WHITE)
-    screen.blit(text_surface, (WIDTH // 2 - text_surface.get_width() // 2, HEIGHT // 2 - 50))
-    pygame.draw.polygon(screen, (0, 255, 0), [(375, 250), (425, 250), (400, 300)])
+    screen.blit(text_surface, (WIDTH // 2 - text_surface.get_width() // 2, HEIGHT // 2 - 100))
+#зелена кнопка
+    restart_button = pygame.Rect(250, 250, 120, 50)
+    pygame.draw.rect(screen, (0, 250, 0), restart_button, border_radius=10)
+    restart_text = font.render('Рестарт', True, BLACK)
+    screen.blit(restart_text,(restart_button.centerx - restart_text.get_width() // 2, restart_button.centery - restart_text.get_height() // 2))
+#червона кнопка
+    menu_button = pygame.Rect(450, 250, 120, 50)
+    pygame.draw.rect(screen,(255, 0, 0), menu_button, border_radius=10)
+    menu_text = font.render('Меню', True, BLACK)
+    screen.blit(menu_text,(menu_button.centerx - menu_text.get_width() // 2, menu_button.centery - menu_text.get_height() // 2))
+
     pygame.display.flip()
 
     waiting = True
@@ -60,8 +70,13 @@ def show_end_screen(message):
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
-                if 375 < x < 425 and 250 < y < 300:
-                    waiting = False
+                if restart_button.collidepoint(x, y):
+                    game_loop()
+                    return 'restart'
+                elif menu_text.collidepoint(x, y):
+                    main_menu()
+                    return 'menu'
+
 
 class Player:
     def __init__(self):
@@ -161,18 +176,29 @@ def game_loop():
 
             if score >= WIN_SCORE:
                 win = True
-        elif game_over:
-            show_end_screen("Ты проиграл!")
+
+        if not game_over and not win:
+
+        else:
+            if game_over:
+                result = show_end_screen('Ти програв!')
+            elif win:
+                result = show_end_screen('Ти виграв!')
+            if result == 'restart':
+                game_loop()
+            elif result == 'menu':
+                main_menu()
             return
-        elif win:
-            show_end_screen("Ты выиграл!")
-            return
+
 
         pygame.display.flip()
         clock.tick(60)
 
     pygame.quit()
     sys.exit()
+
+main_menu()
+game_loop()
 
 main_menu()
 game_loop()
