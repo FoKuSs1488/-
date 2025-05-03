@@ -41,7 +41,7 @@ menu_image = pygame.transform.smoothscale(menu_image, (WIDTH, HEIGHT))
 background_image = pygame.image.load("fon.png").convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 player_image = pygame.image.load("kub.png").convert_alpha()
-player_image = pygame.transform.scale(player_image, (40, 40))
+player_image = pygame.transform.scale(player_image, (80, 60))
 
 # Статистика гравця
 stats = {
