@@ -9,7 +9,7 @@ pygame.mixer.init()
 
 # Завантаження музики
 try:
-    pygame.mixer.music.load("chiptune_sherlock_holmes_anthem-2152252.mp3")
+    pygame.mixer.music.load("chiptune-sherlock-holmes-anthem-215252.mp3")
     pygame.mixer.music.play(-1)  # Безкінечне повторення
 except Exception as e:
     print("Не вдалося завантажити музику:", e)
@@ -144,7 +144,7 @@ class Player:
 # Клас перешкод
 class Obstacle:
     def __init__(self, x, variant):
-        self.rect = pygame.Rect(x, HEIGHT - 50, 40, 40)
+        self.rect = pygame.Rect(x, HEIGHT - 50, 40, 70)
         self.passed = False
         self.variant = variant
 
